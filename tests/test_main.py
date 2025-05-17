@@ -25,7 +25,7 @@ def test_docs_endpoint():
 def test_api_endpoints_exist():
     """Test that the API endpoints are defined in the OpenAPI schema."""
     response = client.get("/openapi.json")
-    assert response.status_code == 404
+    assert response.status_code == 200
     
     # Check that the key API endpoints are defined in the schema
     schema = response.json()
