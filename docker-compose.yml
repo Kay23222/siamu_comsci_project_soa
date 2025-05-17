@@ -10,13 +10,12 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db  # Using the service name as the host
+      - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=1111
       - DB_NAME=ecom_db
     volumes:
-      - ./uploads:/app/uploads  # Persist uploads folder
-    # Wait for MySQL to be ready before starting
+      - ./uploads:/app/uploads
     command: >
       sh -c "
         echo 'Waiting for MySQL to be ready...'
@@ -26,6 +25,7 @@ services:
         echo 'MySQL is ready!'
         uvicorn main:app --host 0.0.0.0 --port 8000
       "
+    restart: unless-stopped
 
   # MySQL database
   db:
@@ -38,10 +38,11 @@ services:
       - MYSQL_ROOT_PASSWORD=1111
       - MYSQL_DATABASE=ecom_db
     volumes:
-      - mysql_data:/var/lib/mysql  # Persist database data
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql  # Initialize database with schema.sql
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    restart: unless-stopped
 
-  # phpMyAdmin (optional)
+  # phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     platform: linux/amd64
@@ -54,6 +55,7 @@ services:
       - PMA_PASSWORD=1111
     depends_on:
       - db
+    restart: unless-stopped
 
 volumes:
-  mysql_data:  # Named volume for MySQL data persistence
+  mysql_data:
