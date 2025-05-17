@@ -48,7 +48,7 @@ jobs:
       # Initialize the database with schema
       - name: Initialize Database
         run: |
-          mysql -h127.0.0.1 -uroot -p1111 ecomm_db < schema.sql
+          mysql -h127.0.0.1 -uroot -p1111 -e "USE ecomm_db; SOURCE schema.sql;"
           
       # Run tests
       - name: Run tests
@@ -89,7 +89,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: <username>/project-ecom-soa:latest
+          tags: kay23222/project-ecom-soa:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
