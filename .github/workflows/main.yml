@@ -46,10 +46,9 @@ jobs:
           pip install -r requirements.txt
           
       # Initialize the database with schema
-      
-      - name: Load schema
-        run: mysql -h127.0.0.1 -uroot -p1111 ecom_db < schema.sql
-
+      - name: Initialize Database
+        run: |
+          mysql -h127.0.0.1 -uroot -p1111 ecom_db < schema.sql
           
       # Run tests
       - name: Run tests
@@ -90,7 +89,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: kay222/project_ecom:latest
+          tags: Kay23222/project_ecom:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -114,7 +113,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.DROPLET_USER }}@${{ secrets.DROPLET_IP }} << 'EOF'
             cd /root || mkdir -p /root && cd /root
             rm -rf project_ecom
-            git clone https://github.com/Kay23222/project-ecom.git
+            git clone https://github.com/Kay23222/project_ecom.git
             cd project_ecom
             sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
