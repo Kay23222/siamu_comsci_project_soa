@@ -90,7 +90,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: Balltwance/project_ecom:latest
+          tags: kay222/project_ecom:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
